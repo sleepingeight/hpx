@@ -9,29 +9,35 @@ def analyze(log_file):
     try:
         with open(log_file, 'r') as f:
             lines = f.readlines()
-        
+
         if len(lines) <= 1:
             print("No data collected in RAM profile.")
             return
 
-        data = []
+        used_data = []
+        avail_data = []
         for line in lines[1:]:
             parts = line.strip().split(',')
-            if len(parts) == 2:
+            if len(parts) == 3:
                 try:
-                    data.append(int(parts[1]))
+                    used_data.append(int(parts[1]))
+                    avail_data.append(int(parts[2]))
                 except ValueError:
                     continue
-        
-        if not data:
+
+        if not used_data:
             print("No valid data collected in RAM profile.")
             return
 
         print(f"\n--- RAM Profiling Results ({log_file}) ---")
-        print(f"Peak RAM Usage:    {max(data)} MB")
-        print(f"Minimum RAM Usage: {min(data)} MB")
-        print(f"Average RAM Usage: {sum(data)/len(data):.2f} MB")
-        print(f"------------------------------------------\n")
+        print(f"Peak RAM Used:      {max(used_data)} MB")
+        print(f"Minimum RAM Used:   {min(used_data)} MB")
+        print(f"Average RAM Used:   {sum(used_data)/len(used_data):.2f} MB")
+        print(f"------------------------------------------")
+        if avail_data:
+            print(f"Minimum RAM Avail:  {min(avail_data)} MB")
+            print(f"Average RAM Avail:  {sum(avail_data)/len(avail_data):.2f} MB")
+            print(f"------------------------------------------\n")
     except Exception as e:
         print(f"Error analyzing RAM profile: {e}")
 
