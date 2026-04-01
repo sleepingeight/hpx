@@ -30,6 +30,10 @@ jobs:
                 nohup .github/ci-scripts/profile_ram.sh ram_profile.csv > /dev/null 2>&1 &
                 echo "PROFILER_PID=$!" >> $GITHUB_ENV
 
+            - name: Set parallel build level
+              shell: bash
+              run: echo "CMAKE_HEADER_BUILD_PARALLEL_LEVEL=$(nproc)" >> $GITHUB_ENV
+            
             - name: Configure (Running CMake)
               shell: bash
               timeout-minutes: 30

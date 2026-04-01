@@ -49,6 +49,7 @@ function(add_hpx_compile_test category name)
     NAME "${category}.${name}"
     COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target ${test_name}
             --config $<CONFIGURATION>
+            --parallel $ENV{CMAKE_HEADER_BUILD_PARALLEL_LEVEL}
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
   )
 
